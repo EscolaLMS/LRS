@@ -9,7 +9,6 @@ on:
       - master
   pull_request:
 
-
 jobs:
   php8-laravel-latest-phpunit-mysql:
     runs-on: ubuntu-latest
@@ -29,6 +28,9 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
+      - name: Instantiate package
+        run: apt-get install git -y
+
       - name: Instantiate package
         uses: actions/checkout@v2
 

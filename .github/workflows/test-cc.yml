@@ -50,7 +50,7 @@ jobs:
         run: composer require --dev mheap/phpunit-github-actions-printer
 
       - name: Run tests
-        run: XDEBUG_MODE=coverage vendor/bin/phpunit  --coverage-clover coverage.xml --printer mheap\\GithubActionsReporter\\Printer
+        run: XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover coverage.xml --printer mheap\\GithubActionsReporter\\Printer
 
       - name: codecov upload
         uses: codecov/codecov-action@v1
