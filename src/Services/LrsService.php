@@ -22,9 +22,6 @@ class LrsService implements LrsServiceContract
 
         $fetch = route("cmi5.fetch") . "?token=" . $token;
 
-
-        // 'http://localhost:8000/GolfExample_TCAPI/index.html?endpoint=http://localhost:1000/trax/api/18b34bd2-fe12-4e3f-a1fb-d95204da10e0/xapi/std&auth=Basic Y2xpZW50OmNsaWVudA==&actor={"mbox":"mailto:brian.miller@scorm.com","name":"Brian J. Miller","objectType":"Agent"}&registration=8175776f-masz chwil8717-457d-b122-285ced399a96'
-
         $result = [
             'endpoint' => $access->getXapiEndpointAttribute($courseId),
             'fetch' => $fetch,
