@@ -40,20 +40,18 @@ jobs:
       - name: Update composer
         run: composer update
 
-      - name: Generate keys
-        run: |
-          ls
-          pwd
-          mkdir storage
-          mkdir src/../../storage/
-          vendor/bin/testbench passport:keys --force
-          vendor/bin/testbench passport:client --personal --no-interaction
-
       - name: Clear config
         run: vendor/bin/testbench config:clear
 
       - name: Publish things
         run: vendor/bin/testbench migrate:fresh
+
+      - name: Generate keys
+        run: |
+          mkdir storage
+          mkdir src/../../storage/
+          vendor/bin/testbench passport:keys --force
+          vendor/bin/testbench passport:client --personal --no-interaction
 
       - name: require phpunit-github-actions-printer
         run: composer require --dev mheap/phpunit-github-actions-printer
