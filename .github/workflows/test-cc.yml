@@ -1,0 +1,82 @@
+name: Tests Code Coverage
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  phpunit-code-coverage:
+    runs-on: ubuntu-latest
+    container:
+      image: escolalms/php:7.4
+
+    services:
+      mysql:
+        image: mariadb
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: database
+          MYSQL_PASSWORD: password
+          MYSQL_USER: username
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Instantiate package
+        run: apt-get install git -y
+
+      - name: Instantiate package
+        uses: actions/checkout@v2
+
+      - name: Setup environment
+        run: cp -r env/codecov/. .
+
+      - name: Update composer
+        run: composer update
+
+      - name: Clear config
+        run: vendor/bin/testbench config:clear
+
+      - name: create folder for passport keys
+        run: |
+          mkdir storage
+          mkdir src/../../storage/
+
+      - name: Publish things
+        run: vendor/bin/testbench migrate:fresh
+
+      - name: Generate keys
+        run: |
+          vendor/bin/testbench passport:keys --force
+          vendor/bin/testbench passport:client --personal --no-interaction
+
+      - name: require phpunit-github-actions-printer
+        run: composer require --dev mheap/phpunit-github-actions-printer
+
+      - name: copy keys
+        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
+
+      - name: Run tests
+        run: XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover coverage.xml --printer mheap\\GithubActionsReporter\\Printer
+
+      - name: codecov upload
+        uses: codecov/codecov-action@v1
+
+      - name: Setup Code Climate test-reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+
+      - name: Convert
+        run: ./cc-test-reporter format-coverage coverage.xml -t clover -o codeclimate.0.json
+
+      - name: Upload
+        run: ./cc-test-reporter upload-coverage -i codeclimate.0.json
+        env:
+          CC_TEST_REPORTER_ID: 92a6b4b89e3c34ede590133d1e180c69c5f4ae177bc4c7284e99647c86a18725

@@ -1,0 +1,160 @@
+name: Tests PHPUnit in environments
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  php8-laravel-latest-phpunit-mysql:
+    runs-on: ubuntu-latest
+    container:
+      image: escolalms/php:8
+
+    services:
+      mysql:
+        image: mariadb
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: database
+          MYSQL_PASSWORD: password
+          MYSQL_USER: username
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Instantiate package
+        run: apt-get install git -y
+
+      - name: Instantiate package
+        uses: actions/checkout@v2
+
+      - name: Setup environment
+        run: cp env/mysql/* .
+
+      - name: Update composer
+        run: composer update
+
+      - name: create folder for passport keys
+        run: |
+          mkdir storage
+          mkdir src/../../storage/
+
+      - name: Clear config
+        run: vendor/bin/testbench config:clear
+
+      - name: Publish things
+        run: vendor/bin/testbench migrate:fresh
+
+      - name: Generate keys
+        run: |
+          vendor/bin/testbench passport:keys --force
+          vendor/bin/testbench passport:client --personal --no-interaction
+
+      - name: copy keys
+        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
+
+      - name: Run tests
+        run: vendor/bin/phpunit
+
+  php74-laravel-latest-phpunit-mysql:
+    runs-on: ubuntu-latest
+    container:
+      image: escolalms/php:7.4
+
+    services:
+      mysql:
+        image: mariadb
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: database
+          MYSQL_PASSWORD: password
+          MYSQL_USER: username
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Instantiate package
+        uses: actions/checkout@v2
+
+      - name: Setup environment
+        run: cp env/mysql/* .
+
+      - name: Update composer
+        run: composer update
+
+      - name: create folder for passport keys
+        run: |
+          mkdir storage
+          mkdir src/../../storage/
+
+      - name: Clear config
+        run: vendor/bin/testbench config:clear
+
+      - name: Publish things
+        run: vendor/bin/testbench migrate:fresh
+
+      - name: Generate keys
+        run: |
+          vendor/bin/testbench passport:keys --force
+          vendor/bin/testbench passport:client --personal --no-interaction
+
+      - name: copy keys
+        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
+
+      - name: Run tests
+        run: vendor/bin/phpunit
+
+  php74-laravel-latest-phpunit-postgres:
+    runs-on: ubuntu-latest
+    container:
+      image: escolalms/php:7.4
+
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test
+          TZ: Europe/Warsaw
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Instantiate package
+        uses: actions/checkout@v2
+
+      - name: Update composer
+        run: composer update
+
+      - name: create folder for passport keys
+        run: |
+          mkdir storage
+          mkdir src/../../storage/
+
+      - name: Setup environment
+        run: cp env/postgres/* .
+
+      - name: Clear config
+        run: vendor/bin/testbench config:clear
+
+      - name: Publish things
+        run: vendor/bin/testbench migrate:fresh
+
+      - name: Generate keys
+        run: |
+          vendor/bin/testbench passport:keys --force
+          vendor/bin/testbench passport:client --personal --no-interaction
+
+      - name: copy keys
+        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
+
+      - name: Run tests
+        run: vendor/bin/phpunit

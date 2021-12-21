@@ -1,2 +1,1 @@
-# LRS
-xAPI Learning Record Stores
+## Learning Record Store
