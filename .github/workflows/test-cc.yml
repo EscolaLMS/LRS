@@ -42,6 +42,7 @@ jobs:
 
       - name: Generate keys
         run: |
+          mkdir storage
           vendor/bin/testbench passport:keys --force
           vendor/bin/testbench passport:client --personal --no-interaction
 
