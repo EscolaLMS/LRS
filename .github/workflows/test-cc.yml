@@ -45,6 +45,7 @@ jobs:
           ls
           pwd
           mkdir storage
+          mkdir src/../../storage/
           vendor/bin/testbench passport:keys --force
           vendor/bin/testbench passport:client --personal --no-interaction
 
