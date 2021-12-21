@@ -42,8 +42,8 @@ jobs:
 
       - name: Generate keys
         run: |
-          vendor/bin/testbench artisan passport:keys --force
-          vendor/bin/testbench artisan passport:client --personal --no-interaction
+          vendor/bin/testbench passport:keys --force
+          vendor/bin/testbench passport:client --personal --no-interaction
 
       - name: Clear config
         run: vendor/bin/testbench config:clear
