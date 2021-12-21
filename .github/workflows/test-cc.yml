@@ -43,13 +43,16 @@ jobs:
       - name: Clear config
         run: vendor/bin/testbench config:clear
 
+      - name: create folder for passport keys
+        run: |
+          mkdir storage
+          mkdir src/../../storage/
+
       - name: Publish things
         run: vendor/bin/testbench migrate:fresh
 
       - name: Generate keys
         run: |
-          mkdir storage
-          mkdir src/../../storage/
           vendor/bin/testbench passport:keys --force
           vendor/bin/testbench passport:client --personal --no-interaction
 
