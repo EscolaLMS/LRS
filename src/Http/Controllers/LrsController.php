@@ -8,8 +8,10 @@ use Illuminate\Routing\Controller;
 use EscolaLms\Lrs\Services\Contracts\LrsServiceContract;
 use EscolaLms\Lrs\Http\Controllers\Swagger\LrsSwagger;
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
+use Illuminate\Support\Facades\Route;
 
-
+use Trax\XapiStore\Stores\States\XapiStateController;
+use Trax\XapiStore\Abstracts\XapiController;
 
 class LrsController extends EscolaLmsBaseController implements LrsSwagger
 {
@@ -30,8 +32,20 @@ class LrsController extends EscolaLmsBaseController implements LrsSwagger
 
     public function lunchParams(Request $request, $id): JsonResponse
     {
+
+
+
         $token = $request->header('Authorization');
         $params = $this->service->launchParams($id, $token);
+
+        $putUrl = $params['endpoint'] . '/activities/state?' . http_build_query($params['state']);
+
+        $putRequest = Request::create($putUrl, "PUT", $params['state']);
+        $putRequest->headers->set('Authorization', $token);
+        $putRequest->headers->set('X-Experience-API-Version', '1.0.3');
+
+        $params['response'] = app()->handle($putRequest);
+
         return $this->sendResponse($params, "cmi5 Params fetched");
     }
 }

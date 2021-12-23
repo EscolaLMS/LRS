@@ -7,6 +7,7 @@ use Trax\Auth\Stores\Accesses\Access;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use EscolaLms\Courses\Models\Course;
+use Trax\XapiStore\Stores\States\StateFactory;
 
 class LrsService implements LrsServiceContract
 {
@@ -45,6 +46,15 @@ class LrsService implements LrsServiceContract
         ]);
 
         $result['url'] = $url;
+
+        $result['state'] = [
+            'stateId' => 'LMS.LaunchData',
+            'agent' => json_encode($result['actor']),
+            'activityId' => $result['activityId'],
+            'registration' => $result['registration'],
+        ];
+
+
 
         return $result;
     }
