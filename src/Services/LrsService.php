@@ -7,7 +7,6 @@ use Trax\Auth\Stores\Accesses\Access;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use EscolaLms\Courses\Models\Course;
-use Trax\XapiStore\Stores\States\StateFactory;
 
 class LrsService implements LrsServiceContract
 {

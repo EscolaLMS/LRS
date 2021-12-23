@@ -39,7 +39,6 @@ class EscolaLmsLrsServiceProvider extends ServiceProvider
             }
         }
 
-
         Config::set(
             'trax-auth.app.guards.basic_http',
             AccessTokenGuard::class
@@ -55,7 +54,6 @@ class EscolaLmsLrsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         $this->app->register(AuthServiceProvider::class);
     }
 }

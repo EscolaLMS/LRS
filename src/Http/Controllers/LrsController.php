@@ -4,14 +4,9 @@ namespace EscolaLms\Lrs\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use EscolaLms\Lrs\Services\Contracts\LrsServiceContract;
 use EscolaLms\Lrs\Http\Controllers\Swagger\LrsSwagger;
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
-use Illuminate\Support\Facades\Route;
-
-use Trax\XapiStore\Stores\States\XapiStateController;
-use Trax\XapiStore\Abstracts\XapiController;
 
 class LrsController extends EscolaLmsBaseController implements LrsSwagger
 {
@@ -32,8 +27,6 @@ class LrsController extends EscolaLmsBaseController implements LrsSwagger
 
     public function lunchParams(Request $request, $id): JsonResponse
     {
-
-
 
         $token = $request->header('Authorization');
         $params = $this->service->launchParams($id, $token);
