@@ -1,0 +1,194 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "EscolaLMS Tags",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/tags": {
+            "get": {
+                "tags": [
+                    "tags"
+                ],
+                "description": "Display a listing of the Tag",
+                "operationId": "EscolaLms\\Tags\\Http\\Controllers\\Swagger\\TagsApiSwagger::index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Destroy Tags",
+                "description": "Destroy Tags",
+                "operationId": "EscolaLms\\Tags\\Http\\Controllers\\Swagger\\TagsApiSwagger::destroy",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "tags": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tags/unique": {
+            "get": {
+                "tags": [
+                    "tags"
+                ],
+                "description": "Display the unique Tags",
+                "operationId": "EscolaLms\\Tags\\Http\\Controllers\\Swagger\\TagsApiSwagger::unique",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tags/create": {
+            "post": {
+                "tags": [
+                    "tags"
+                ],
+                "description": "Create multiple Tags",
+                "operationId": "EscolaLms\\Tags\\Http\\Controllers\\Swagger\\TagsApiSwagger::create",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "model_type": {
+                                        "type": "string",
+                                        "example": "Category"
+                                    },
+                                    "model_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Nowości"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tags/{tag}": {
+            "get": {
+                "tags": [
+                    "tags"
+                ],
+                "description": "Display the specified Tag",
+                "operationId": "EscolaLms\\Tags\\Http\\Controllers\\Swagger\\TagsApiSwagger::show",
+                "parameters": [
+                    {
+                        "name": "tag",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
