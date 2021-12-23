@@ -46,6 +46,15 @@ class LrsService implements LrsServiceContract
 
         $result['url'] = $url;
 
+        $result['state'] = [
+            'stateId' => 'LMS.LaunchData',
+            'agent' => json_encode($result['actor']),
+            'activityId' => $result['activityId'],
+            'registration' => $result['registration'],
+        ];
+
+
+
         return $result;
     }
 }
