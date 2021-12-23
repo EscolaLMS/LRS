@@ -12,6 +12,10 @@ use \Trax\Auth\AuthServiceProvider as TraxAuthServiceProvider;
 use \Trax\XapiValidation\XapiValidationServiceProvider;
 use \Trax\XapiStore\XapiStoreServiceProvider;
 
+/**
+ * SWAGGER_VERSION
+ */
+
 class EscolaLmsLrsServiceProvider extends ServiceProvider
 {
     public $singletons = [
