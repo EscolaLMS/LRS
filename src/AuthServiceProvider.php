@@ -28,10 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         Passport::loadKeysFrom(__DIR__ . '/../../storage');
 
         Auth::extend('access_token', function () {
-            // automatically build the DI, put it as reference
-            //$userProvider = app(TokenToUserProvider::class);
             $request = app('request');
-
             return new AccessTokenGuard($request);
         });
     }
