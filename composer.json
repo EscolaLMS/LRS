@@ -21,6 +21,9 @@
     }
   ],
   "autoload": {
+    "exclude-from-classmap": [
+      "tests/Exceptions"
+    ],
     "psr-4": {
       "EscolaLms\\Lrs\\": "src",
       "EscolaLms\\Lrs\\Database\\Seeders\\": "database/seeders",
@@ -29,6 +32,9 @@
   },
   "autoload-dev": {
     "psr-4": {
+      "EscolaLms\\Lrs\\": "src",
+      "EscolaLms\\Lrs\\Database\\Seeders\\": "database/seeders",
+      "EscolaLms\\Lrs\\Tests\\": "tests",
       "App\\Exceptions\\": "tests/Exceptions"
     }
   },
