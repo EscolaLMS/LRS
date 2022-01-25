@@ -2,6 +2,7 @@
 
 namespace Tests\APIs;
 
+use EscolaLms\Courses\Enum\CourseStatusEnum;
 use EscolaLms\Lrs\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Config;
@@ -36,7 +37,7 @@ class cmi5ApiTest extends TestCase
         $this->course = Course::factory()->create([
             'author_id' => $this->tutor->id,
             'base_price' => 1337,
-            'active' => true,
+            'status' => CourseStatusEnum::PUBLISHED,
         ]);
 
         $lesson = Lesson::factory()->create([
