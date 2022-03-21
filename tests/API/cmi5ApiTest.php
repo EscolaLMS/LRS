@@ -36,7 +36,6 @@ class cmi5ApiTest extends TestCase
 
         $this->course = Course::factory()->create([
             'author_id' => $this->tutor->id,
-            'base_price' => 1337,
             'status' => CourseStatusEnum::PUBLISHED,
         ]);
 
