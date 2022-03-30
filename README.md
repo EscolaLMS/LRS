@@ -21,9 +21,8 @@ x-experience-api-version: 1.0.3
 
 ## Testing
 
-1. Download [cmi5-demo](https://github.com/xapijs/cmi5-demo) and run it with static file server ([`npm run serve`](https://www.npmjs.com/package/serve) or [`php -S localhost:8000`](https://www.php.net/manual/en/features.commandline.webserver.php) is good enough)
-   )
-2. Generate fetch params for a course id calling `/api/cmi5/courses/{id}` endpoint
+1. Download [cmi5-demo](https://github.com/xapijs/cmi5-demo) and run it with static file server - [`npm run serve`](https://www.npmjs.com/package/serve) or [`php -S localhost:8000`](https://www.php.net/manual/en/features.commandline.webserver.php) is good enough
+2. Generate [fetch params](http://aicc.github.io/CMI-5_Spec_Current/flows/lms-flow.html) for a course id calling `/api/cmi5/courses/{id}` endpoint
 3. Start course from point 1 with generated params, use `url` object example below
 
 ```bash
