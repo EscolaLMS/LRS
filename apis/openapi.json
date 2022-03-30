@@ -1,155 +1,27 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "EscolaLMS Tags",
-        "version": "0.1"
+        "title": "EscolaLMS",
+        "version": "0.0.1"
     },
     "paths": {
-        "/api/tags": {
-            "get": {
-                "tags": [
-                    "tags"
-                ],
-                "description": "Display a listing of the Tag",
-                "operationId": "EscolaLms\\Tags\\Http\\Controllers\\Swagger\\TagsApiSwagger::index",
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "422": {
-                        "description": "Bad request",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Destroy Tags",
-                "description": "Destroy Tags",
-                "operationId": "EscolaLms\\Tags\\Http\\Controllers\\Swagger\\TagsApiSwagger::destroy",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "tags": {
-                                        "type": "array",
-                                        "items": {
-                                            "properties": {
-                                                "": {
-                                                    "type": "integer",
-                                                    "example": "1"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "422": {
-                        "description": "Bad request",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/tags/unique": {
-            "get": {
-                "tags": [
-                    "tags"
-                ],
-                "description": "Display the unique Tags",
-                "operationId": "EscolaLms\\Tags\\Http\\Controllers\\Swagger\\TagsApiSwagger::unique",
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "422": {
-                        "description": "Bad request",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/tags/create": {
+        "/api/cmi5/fetch": {
             "post": {
                 "tags": [
-                    "tags"
+                    "cmi5"
                 ],
-                "description": "Create multiple Tags",
-                "operationId": "EscolaLms\\Tags\\Http\\Controllers\\Swagger\\TagsApiSwagger::create",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "model_type": {
-                                        "type": "string",
-                                        "example": "Category"
-                                    },
-                                    "model_id": {
-                                        "type": "integer",
-                                        "example": "1"
-                                    },
-                                    "tags": {
-                                        "type": "array",
-                                        "items": {
-                                            "properties": {
-                                                "": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "properties": {
-                                                            "title": {
-                                                                "type": "string",
-                                                                "example": "Nowości"
-                                                            }
-                                                        },
-                                                        "type": "object"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
+                "summary": "cmi5 token fetch",
+                "operationId": "4522d9dea57722a3ac901286fccb96ce",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "required": true
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "successful operation",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "422": {
-                        "description": "Bad request",
                         "content": {
                             "application/json": {}
                         }
@@ -157,17 +29,19 @@
                 }
             }
         },
-        "/api/tags/{tag}": {
+        "/api/cmi5/courses/{id}": {
             "get": {
                 "tags": [
-                    "tags"
+                    "cmi5"
                 ],
-                "description": "Display the specified Tag",
-                "operationId": "EscolaLms\\Tags\\Http\\Controllers\\Swagger\\TagsApiSwagger::show",
+                "summary": "Get Course cmi5 launch params",
+                "description": "Course cmi5 launch params",
+                "operationId": "07ddcceda17c62af34c2c72b15c334ef",
                 "parameters": [
                     {
-                        "name": "tag",
+                        "name": "id",
                         "in": "path",
+                        "description": "id of Course",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -180,14 +54,13 @@
                         "content": {
                             "application/json": {}
                         }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "content": {
-                            "application/json": {}
-                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         }
     }
