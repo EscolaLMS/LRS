@@ -13,7 +13,7 @@
 
 1. get package from composer `composer require escolalms/lrs`
 2. run the seeder `php artisan db:seed --class="EscolaLms\Lrs\Database\Seeders\LrsSeeder"`
-3. make sure that Response Headers are not overwritten by any layer, the `/api/cmi5/**` should respone with
+3. make sure that Response Headers are not overwritten by any layer, the `/api/cmi5/**` should response with
 
 ```
 x-experience-api-version: 1.0.3
