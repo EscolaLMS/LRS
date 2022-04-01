@@ -15,7 +15,6 @@ use \Trax\XapiStore\XapiStoreServiceProvider;
 /**
  * SWAGGER_VERSION
  */
-
 class EscolaLmsLrsServiceProvider extends ServiceProvider
 {
     public $singletons = [
