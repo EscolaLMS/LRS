@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\APIs;
+namespace EscolaLms\Lrs\Tests\API;
 
 use EscolaLms\Courses\Enum\CourseStatusEnum;
 use EscolaLms\Lrs\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Config;
 use EscolaLms\Lrs\Database\Seeders\LrsSeeder;
 use EscolaLms\Courses\Models\Course;
 use EscolaLms\Courses\Models\Lesson;
@@ -55,7 +54,6 @@ class cmi5ApiTest extends TestCase
 
     public function test_get_course_lanuch_params()
     {
-
         $this->response = $this->withHeaders([
             'Authorization' => "Bearer {$this->token}"
         ])->json(
@@ -74,7 +72,6 @@ class cmi5ApiTest extends TestCase
                 "activityId",
                 "url"
             ]
-
         ]);
     }
 

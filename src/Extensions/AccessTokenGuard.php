@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Lrs\Extensions;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Trax\Auth\Contracts\AccessGuardContract;
 use Trax\Repo\CrudRepository;
@@ -16,8 +17,6 @@ class AccessTokenGuard implements AccessGuardContract
      * @var \Trax\Auth\Stores\BasicHttp\BasicHttpProvider
      */
     protected $provider;
-
-
 
     /**
      * Get the type used in the access model.
@@ -72,25 +71,37 @@ class AccessTokenGuard implements AccessGuardContract
      */
     public function check($credentials, Request $request): bool
     {
-
         $token = $request->header('Authorization');
-        $decoded = json_decode(base64_decode(str_replace('_', '/', str_replace('-', '+', explode('.', $token)[1]))));
+        return $this->tokenIsValid($token);
+    }
 
-        // $auth = base64_encode($uname . ":" . $pass);
+    private function tokenIsValid(?string $token): bool {
+        if (!$token) {
+            return false;
+        }
 
-
+        $decoded = $this->decodeToken($token);
 
         if (empty($decoded)) {
             return false;
         }
 
         $token = Passport::token()->where('id', $decoded->jti)->first();
-        if (!$token) {
+
+        if (!$token || $token->expires_at < Carbon::now() || $token->revoked) {
             return false;
         }
 
         $this->user = $token->user()->get();
 
         return true;
+    }
+
+    private function decodeToken(string $token): object {
+        return json_decode(
+            base64_decode(
+                str_replace('_', '/', str_replace('-', '+', explode('.', $token)[1]))
+            )
+        );
     }
 }
