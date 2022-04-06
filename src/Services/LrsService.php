@@ -2,38 +2,41 @@
 
 namespace EscolaLms\Lrs\Services;
 
+use EscolaLms\Courses\Models\Topic;
 use EscolaLms\Lrs\Services\Contracts\LrsServiceContract;
 use Trax\Auth\Stores\Accesses\Access;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use EscolaLms\Courses\Models\Course;
 
 class LrsService implements LrsServiceContract
 {
-    public function launchParams(int $courseId, string $token): array
+    public function launchParams(string $token, ?int $courseId = null, ?int $topicId = null): array
     {
         $access = Access::firstOrFail();
         $user = Auth::user();
-        $course = Course::findOrFail($courseId);
+
+        if ($topicId) {
+            $topic = Topic::findOrFail($topicId);
+            $courseId = $topic->lesson->course->getKey();
+        }
 
         $token = explode(" ", $token);
         $token = array_pop($token);
-        $topic = $course->lessons->first()->topics->first();
-
         $fetch = route("cmi5.fetch") . "?token=" . $token;
 
         $result = [
             'endpoint' => $access->getXapiEndpointAttribute($courseId),
             'fetch' => $fetch,
             'actor' => [
-                "mbox" => "mailto:" . $user->email,
+                // 'mbox' => 'mailto:' . $user->email,
                 'objectType' => 'Agent',
-                'name' => "{$user->first_name} {$user->last_name}"
+                'account' => [
+                    'homePage' => "https://escolalms.com",
+                    'name' => $user->email,
+                ]
             ],
             'registration' => (string) Str::uuid(),
-            'activityId' => url("xapi/activities/course/{$courseId}/topic/{$topic->id}")
-
-
+            'activityId' => $this->getActivityId($courseId, $topicId)
         ];
 
         $url = http_build_query([
@@ -45,7 +48,6 @@ class LrsService implements LrsServiceContract
         ]);
 
         $result['url'] = $url;
-
         $result['state'] = [
             'stateId' => 'LMS.LaunchData',
             'agent' => json_encode($result['actor']),
@@ -53,8 +55,18 @@ class LrsService implements LrsServiceContract
             'registration' => $result['registration'],
         ];
 
-
-
         return $result;
+    }
+
+    private function getActivityId(?int $courseId = null, ?int $topicId = null): string
+    {
+        if ($courseId && $topicId) {
+            return url("xapi/activities/course/{$courseId}/topic/{$topicId}");
+        }
+        elseif ($courseId) {
+            return url("xapi/activities/course/{$courseId}");
+        }
+
+        return url("xapi/activities/preview");
     }
 }

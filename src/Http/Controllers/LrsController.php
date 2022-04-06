@@ -27,9 +27,8 @@ class LrsController extends EscolaLmsBaseController implements LrsSwagger
 
     public function lunchParams(Request $request, $id): JsonResponse
     {
-
         $token = $request->header('Authorization');
-        $params = $this->service->launchParams($id, $token);
+        $params = $this->service->launchParams($token, $id);
 
         $putUrl = $params['endpoint'] . '/activities/state?' . http_build_query($params['state']);
 
