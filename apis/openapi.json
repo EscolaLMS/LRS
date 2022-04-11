@@ -36,7 +36,7 @@
                 ],
                 "summary": "Get Course cmi5 launch params",
                 "description": "Course cmi5 launch params",
-                "operationId": "07ddcceda17c62af34c2c72b15c334ef",
+                "operationId": "0eca40effcf56c61b69670cd210ccf52",
                 "parameters": [
                     {
                         "name": "id",
