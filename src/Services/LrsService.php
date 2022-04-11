@@ -3,7 +3,9 @@
 namespace EscolaLms\Lrs\Services;
 
 use EscolaLms\Courses\Models\Topic;
+use EscolaLms\Lrs\Enums\XApiEnum;
 use EscolaLms\Lrs\Services\Contracts\LrsServiceContract;
+use Illuminate\Http\Request;
 use Trax\Auth\Stores\Accesses\Access;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -56,6 +58,37 @@ class LrsService implements LrsServiceContract
         ];
 
         return $result;
+    }
+
+    public function saveState(string $token, array $params): array
+    {
+        $putUrl = $params['endpoint'] . '/activities/state?' . http_build_query($params['state']);
+
+        $putRequest = Request::create($putUrl, 'PUT', $params['state']);
+        $putRequest->headers->set('Authorization', $token);
+        $putRequest->headers->set('X-Experience-API-Version', XApiEnum::API_VERSION);
+
+        $params['response'] = app()->handle($putRequest);
+
+        return $params;
+    }
+
+    public function saveAgent(string $token, array $params): array
+    {
+        $post = $params['endpoint'] . '/agents/profile';
+
+        $data = [
+            'agent' => json_encode($params['actor']),
+            'profileId' => 'cmi5LearnerPreferences',
+        ];
+
+        $request = Request::create($post, 'POST', $data);
+        $request->headers->set('Authorization', $token);
+        $request->headers->set('X-Experience-API-Version', XApiEnum::API_VERSION);
+
+        $params['response'] = app()->handle($request);
+
+        return $params;
     }
 
     private function getActivityId(?int $courseId = null, ?int $topicId = null): string
