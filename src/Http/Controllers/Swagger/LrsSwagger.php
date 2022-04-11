@@ -77,11 +77,10 @@ interface LrsSwagger
      *              @OA\Property(
      *                  property="url",
      *                  type="string"
-     *              ),                  
+     *              ),
      *          )
      *      )
      * )
      */
-
-    public function lunchParams(Request $request, $id): JsonResponse;
+    public function launchParams(Request $request, int $id): JsonResponse;
 }

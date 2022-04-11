@@ -10,7 +10,6 @@ use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
 
 class LrsController extends EscolaLmsBaseController implements LrsSwagger
 {
-
     private LrsServiceContract $service;
 
     public function __construct(LrsServiceContract $service)
@@ -25,18 +24,13 @@ class LrsController extends EscolaLmsBaseController implements LrsSwagger
         ]);
     }
 
-    public function lunchParams(Request $request, $id): JsonResponse
+    public function launchParams(Request $request, int $id): JsonResponse
     {
         $token = $request->header('Authorization');
+
         $params = $this->service->launchParams($token, $id);
-
-        $putUrl = $params['endpoint'] . '/activities/state?' . http_build_query($params['state']);
-
-        $putRequest = Request::create($putUrl, "PUT", $params['state']);
-        $putRequest->headers->set('Authorization', $token);
-        $putRequest->headers->set('X-Experience-API-Version', '1.0.3');
-
-        $params['response'] = app()->handle($putRequest);
+        $params = $this->service->saveState($token, $params);
+        $params = $this->service->saveAgent($token, $params);
 
         return $this->sendResponse($params, "cmi5 Params fetched");
     }

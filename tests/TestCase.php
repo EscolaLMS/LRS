@@ -2,8 +2,6 @@
 
 namespace EscolaLms\Lrs\Tests;
 
-
-
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\Passport\PassportServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
@@ -13,7 +11,6 @@ use EscolaLms\Lrs\Database\Seeders\LrsSeeder;
 use Laravel\Passport\Passport;
 use EscolaLms\Lrs\Tests\Models\Client;
 use EscolaLms\Lrs\Tests\Models\User;
-
 
 class TestCase extends \EscolaLms\Core\Tests\TestCase
 {
@@ -27,7 +24,6 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
 
     protected function getPackageProviders($app): array
     {
-
         return [
             ...parent::getPackageProviders($app),
             EscolaLmsLrsServiceProvider::class,
