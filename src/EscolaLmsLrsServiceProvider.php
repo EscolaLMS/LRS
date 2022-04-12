@@ -2,6 +2,10 @@
 
 namespace EscolaLms\Lrs;
 
+use EscolaLms\Lrs\Repositories\Contracts\StatementRepositoryContract;
+use EscolaLms\Lrs\Repositories\StatementRepository;
+use EscolaLms\Lrs\Services\Contracts\StatementServiceContract;
+use EscolaLms\Lrs\Services\StatementService;
 use Illuminate\Support\ServiceProvider;
 use EscolaLms\Lrs\Services\Contracts\LrsServiceContract;
 use EscolaLms\Lrs\Services\LrsService;
@@ -19,6 +23,8 @@ class EscolaLmsLrsServiceProvider extends ServiceProvider
 {
     public $singletons = [
         LrsServiceContract::class => LrsService::class,
+        StatementServiceContract::class => StatementService::class,
+        StatementRepositoryContract::class => StatementRepository::class,
     ];
 
     private $requiredProviders = [
@@ -35,7 +41,6 @@ class EscolaLmsLrsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
         foreach ($this->requiredProviders as $provider) {
             if (!app()->bound($provider)) {
                 $this->app->register($provider);
