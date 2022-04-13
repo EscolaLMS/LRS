@@ -12,7 +12,7 @@ Route::group(['prefix' => 'api'], function () {
         });
     });
 
-    Route::group(['prefix' => '/admin/cmi5'], function () {
+    Route::group(['prefix' => '/admin/cmi5', 'middleware' => ['auth:api']], function () {
         Route::get('/statements', [StatementController::class, 'statements']);
     });
 });

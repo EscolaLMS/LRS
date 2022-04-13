@@ -2,10 +2,10 @@
 
 namespace EscolaLms\Lrs\Http\Controllers\Swagger;
 
+use EscolaLms\Lrs\Http\Requests\StatementListRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 interface StatementSwagger
 {
-    public function statements(Request $request): JsonResponse;
+    public function statements(StatementListRequest $request): JsonResponse;
 }

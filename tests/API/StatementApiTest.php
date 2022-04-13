@@ -4,6 +4,7 @@ namespace EscolaLms\Lrs\Tests\API;
 
 use Carbon\Carbon;
 use EscolaLms\Core\Tests\CreatesUsers;
+use EscolaLms\Lrs\Database\Seeders\LrsPermissionSeeder;
 use EscolaLms\Lrs\Database\Seeders\LrsSeeder;
 use EscolaLms\Lrs\Models\Statement;
 use EscolaLms\Lrs\Tests\TestCase;
@@ -24,6 +25,7 @@ class StatementApiTest extends TestCase
         parent::setUp();
 
         $this->seed(LrsSeeder::class);
+        $this->seed(LrsPermissionSeeder::class);
         $this->admin = $this->makeAdmin();
     }
 
@@ -33,6 +35,19 @@ class StatementApiTest extends TestCase
         $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements');
 
         $this->assertStatementResponse($response, 10);
+    }
+
+    public function testGetStatementsUnauthorized(): void
+    {
+        $this->json('GET', 'api/admin/cmi5/statements')
+            ->assertUnauthorized();
+    }
+
+    public function testGetStatementsForbidden(): void
+    {
+        $student = $this->makeStudent();
+        $this->actingAs($student, 'api')->json('GET', 'api/admin/cmi5/statements')
+            ->assertForbidden();
     }
 
     public function testGetStatementsPagination(): void
