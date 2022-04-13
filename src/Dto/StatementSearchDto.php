@@ -7,7 +7,9 @@ use EscolaLms\Core\Dtos\Contracts\DtoContract;
 use EscolaLms\Core\Dtos\Contracts\InstantiateFromRequest;
 use EscolaLms\Core\Dtos\CriteriaDto;
 use EscolaLms\Core\Repositories\Criteria\Primitives\DateCriterion;
+use EscolaLms\Lrs\Enums\QueryEnum;
 use EscolaLms\Lrs\Repositories\Criteria\JsonCriteria;
+use EscolaLms\Lrs\Repositories\Criteria\OrderCriterion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -16,6 +18,13 @@ class StatementSearchDto extends CriteriaDto implements DtoContract, Instantiate
     public static function instantiateFromRequest(Request $request): self
     {
         $criteria = new Collection();
+
+        $criteria->push(
+            new OrderCriterion(
+                $request->get('order_by') ?? QueryEnum::DEFAULT_SORT,
+                $request->get('order') ?? QueryEnum::DEFAULT_SORT_DIRECTION
+            )
+        );
 
         if ($request->get('verb')) {
             $criteria->push(

@@ -32,7 +32,8 @@ class StatementApiTest extends TestCase
     public function testGetStatements(): void
     {
         Statement::factory()->count(10)->create();
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements');
 
         $this->assertStatementResponse($response, 10);
     }
@@ -46,7 +47,8 @@ class StatementApiTest extends TestCase
     public function testGetStatementsForbidden(): void
     {
         $student = $this->makeStudent();
-        $this->actingAs($student, 'api')->json('GET', 'api/admin/cmi5/statements')
+        $this->actingAs($student, 'api')
+            ->json('GET', 'api/admin/cmi5/statements')
             ->assertForbidden();
     }
 
@@ -54,11 +56,32 @@ class StatementApiTest extends TestCase
     {
         Statement::factory()->count(25)->create();
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?per_page=10');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?per_page=10');
         $this->assertStatementResponse($response, 10);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?per_page=10&page=3');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?per_page=10&page=3');
         $this->assertStatementResponse($response, 5);
+    }
+
+    public function testGetStatementsOrderBy(): void
+    {
+        $startDate = Carbon::now()->subDay();
+        $start = Statement::factory()->create(['created_at' => $startDate]);
+        $endDate = Carbon::now()->addDay();
+        $end = Statement::factory()->create(['created_at' => $endDate]);
+        Statement::factory()->count(10)->create();
+
+        $response = $this
+            ->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?per_page=15&order_by=created_at&order=desc');
+
+        $this->assertStatementResponse($response, 12);
+
+        $data = $response->getData()->data;
+        $this->assertEquals($end->created_at, Carbon::parse($data[0]->created_at));
+        $this->assertEquals($start->created_at, Carbon::parse($data[count($data) - 1]->created_at));
     }
 
     public function testGetStatementsFilterByVerb(): void
@@ -72,13 +95,16 @@ class StatementApiTest extends TestCase
         Statement::factory()->count(10)->create(['data' => $this->getData(null, null, null, $verb)]);
         Statement::factory()->count(5)->create();
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements');
         $this->assertStatementResponse($response, 15);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?verb=initialized');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?verb=initialized');
         $this->assertStatementResponse($response, 10);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?verb=http://adlnet.gov/expapi/verbs/initialized');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?verb=http://adlnet.gov/expapi/verbs/initialized');
         $this->assertStatementResponse($response, 10);
     }
 
@@ -94,13 +120,16 @@ class StatementApiTest extends TestCase
         Statement::factory()->count(10)->create(['data' => $this->getData(null, $actor)]);
         Statement::factory()->count(5)->create();
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements');
         $this->assertStatementResponse($response, 15);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?account=Test Test');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?account=Test Test');
         $this->assertStatementResponse($response, 10);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?account=https://test.com');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?account=https://test.com');
         $this->assertStatementResponse($response, 10);
     }
 
@@ -110,10 +139,12 @@ class StatementApiTest extends TestCase
         Statement::factory()->count(10)->create(['data' => $this->getData(null, null, $context)]);
         Statement::factory()->count(5)->create();
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements');
         $this->assertStatementResponse($response, 15);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?registration=123456789');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?registration=123456789');
         $this->assertStatementResponse($response, 10);
     }
 
@@ -125,10 +156,12 @@ class StatementApiTest extends TestCase
         Statement::factory()->count(10)->create(['data' => $this->getData(null, null, null, null, $object)]);
         Statement::factory()->count(5)->create();
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements');
         $this->assertStatementResponse($response, 15);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?object=Test');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?object=Test');
         $this->assertStatementResponse($response, 10);
     }
 
@@ -137,10 +170,12 @@ class StatementApiTest extends TestCase
         Statement::factory()->count(10)->create(['data' => $this->getData(null, null, null, null, null, '1.2.3')]);
         Statement::factory()->count(5)->create();
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements');
         $this->assertStatementResponse($response, 15);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?version=1.2.3');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?version=1.2.3');
         $this->assertStatementResponse($response, 10);
     }
 
@@ -154,10 +189,12 @@ class StatementApiTest extends TestCase
             'created_at' => Carbon::now()->subMonth()
         ]);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?per_page=50');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?per_page=50');
         $this->assertStatementResponse($response, 15);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?date_from=' . $dateFrom);
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?date_from=' . $dateFrom);
         $this->assertStatementResponse($response, 5);
     }
 
@@ -171,10 +208,12 @@ class StatementApiTest extends TestCase
             'created_at' => Carbon::now()->addMonth()
         ]);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?per_page=50');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?per_page=50');
         $this->assertStatementResponse($response, 15);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?date_to=' . $dateTo);
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?date_to=' . $dateTo);
         $this->assertStatementResponse($response, 5);
     }
 
@@ -192,10 +231,12 @@ class StatementApiTest extends TestCase
             'created_at' => Carbon::now()->addMonth()
         ]);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?per_page=50');
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?per_page=50');
         $this->assertStatementResponse($response, 30);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/cmi5/statements?date_from=' . $dateFrom . '&date_to=' . $dateTo);
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?date_from=' . $dateFrom . '&date_to=' . $dateTo);
         $this->assertStatementResponse($response, 10);
     }
 
