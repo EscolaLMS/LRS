@@ -114,7 +114,7 @@ class StatementApiTest extends TestCase
             'objectType' => 'Agent',
             'account' => [
                 'homePage' => 'https://test.com',
-                'name' => 'Test Test',
+                'name' => 'test@test.com',
             ]
         ];
         Statement::factory()->count(10)->create(['data' => $this->getData(null, $actor)]);
@@ -125,7 +125,7 @@ class StatementApiTest extends TestCase
         $this->assertStatementResponse($response, 15);
 
         $response = $this->actingAs($this->admin, 'api')
-            ->json('GET', 'api/admin/cmi5/statements?account=Test Test');
+            ->json('GET', 'api/admin/cmi5/statements?account=test@test.com');
         $this->assertStatementResponse($response, 10);
 
         $response = $this->actingAs($this->admin, 'api')
