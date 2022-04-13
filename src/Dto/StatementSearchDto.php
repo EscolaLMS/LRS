@@ -7,7 +7,6 @@ use EscolaLms\Core\Dtos\Contracts\DtoContract;
 use EscolaLms\Core\Dtos\Contracts\InstantiateFromRequest;
 use EscolaLms\Core\Dtos\CriteriaDto;
 use EscolaLms\Core\Repositories\Criteria\Primitives\DateCriterion;
-use EscolaLms\Core\Repositories\Criteria\Primitives\EqualCriterion;
 use EscolaLms\Lrs\Repositories\Criteria\JsonCriteria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -22,20 +21,31 @@ class StatementSearchDto extends CriteriaDto implements DtoContract, Instantiate
             $criteria->push(
                 new JsonCriteria('data->verb->display->en-US', $request->get('verb'))
             );
-        }
-        if ($request->get('verb_id')) {
             $criteria->push(
-                new JsonCriteria('data->verb->id', $request->get('verb_id'))
+                new JsonCriteria('data->verb->id', $request->get('verb'), null, false)
             );
         }
         if ($request->get('account')) {
             $criteria->push(
                 new JsonCriteria('data->actor->account->name', $request->get('account'))
             );
+            $criteria->push(
+                new JsonCriteria('data->actor->account->homePage', $request->get('account'), null, false)
+            );
         }
         if ($request->get('registration')) {
             $criteria->push(
                 new JsonCriteria('data->context->registration', $request->get('registration'))
+            );
+        }
+        if ($request->get('object')) {
+            $criteria->push(
+                new JsonCriteria('data->object->objectType', $request->get('object'))
+            );
+        }
+        if ($request->get('version')) {
+            $criteria->push(
+                new JsonCriteria('data->version', $request->get('version'))
             );
         }
         if ($request->get('date_from')) {

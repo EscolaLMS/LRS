@@ -47,6 +47,9 @@ class StatementFactory extends Factory
                     "en-US" => "progressed"
                 ]
             ],
+            'object' => [
+                'objectType' => 'Activity'
+            ],
             'version' => '1.0.0'
         ];
     }

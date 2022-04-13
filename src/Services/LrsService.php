@@ -33,7 +33,7 @@ class LrsService implements LrsServiceContract
                 'objectType' => 'Agent',
                 'account' => [
                     'homePage' => "https://escolalms.com",
-                    'name' => $user->first_name . ' ' . $user->last_name,
+                    'name' => isset($user) ? $user->first_name . ' ' . $user->last_name : '',
                 ]
             ],
             'registration' => (string) Str::uuid(),
