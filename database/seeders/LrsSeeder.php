@@ -14,7 +14,6 @@ class LrsSeeder extends Seeder
 {
     public function run()
     {
-
         $name = 'EscolaLMS';
 
         $owner = Owner::firstOrCreate([

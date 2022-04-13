@@ -30,11 +30,10 @@ class LrsService implements LrsServiceContract
             'endpoint' => $access->getXapiEndpointAttribute($courseId),
             'fetch' => $fetch,
             'actor' => [
-                // 'mbox' => 'mailto:' . $user->email,
                 'objectType' => 'Agent',
                 'account' => [
                     'homePage' => "https://escolalms.com",
-                    'name' => $user->email,
+                    'name' => isset($user) ? $user->email : '',
                 ]
             ],
             'registration' => (string) Str::uuid(),
