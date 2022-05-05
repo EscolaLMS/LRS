@@ -5,13 +5,13 @@
   "require": {
     "php": ">=7.4",
     "laravel/framework": ">=8.0",
-    "escolalms/core": "^1",
-    "trax2/framework": "^2"
+    "escolalms/core": "^1"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.0",
     "orchestra/testbench": ">=5.0",
-    "escolalms/courses": "^0.3.48"
+    "escolalms/courses": "^0.3.48",
+    "trax2/framework": "^2"
   },
   "license": "MIT",
   "authors": [
@@ -20,6 +20,9 @@
       "email": "mateusz@wojczal.com"
     }
   ],
+  "suggest": {
+    "trax2/framework": "^2"
+  },
   "autoload": {
     "exclude-from-classmap": [
       "tests/Exceptions"
