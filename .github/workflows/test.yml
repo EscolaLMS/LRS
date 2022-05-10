@@ -56,9 +56,6 @@ jobs:
           vendor/bin/testbench passport:keys --force
           vendor/bin/testbench passport:client --personal --no-interaction
 
-      - name: copy keys
-        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
-
       - name: Run tests
         run: vendor/bin/phpunit
 
@@ -105,9 +102,6 @@ jobs:
           vendor/bin/testbench passport:keys --force
           vendor/bin/testbench passport:client --personal --no-interaction
 
-      - name: copy keys
-        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
-
       - name: Run tests
         run: vendor/bin/phpunit
 
@@ -152,9 +146,6 @@ jobs:
         run: |
           vendor/bin/testbench passport:keys --force
           vendor/bin/testbench passport:client --personal --no-interaction
-
-      - name: copy keys
-        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
 
       - name: Run tests
         run: vendor/bin/phpunit
