@@ -20,6 +20,9 @@
       "email": "mateusz@wojczal.com"
     }
   ],
+  "suggest": {
+    "trax2/framework": "^2"
+  },
   "autoload": {
     "exclude-from-classmap": [
       "tests/Exceptions"

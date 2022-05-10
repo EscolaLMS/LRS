@@ -1,8 +1,8 @@
 <?php
 
 use EscolaLms\Lrs\Http\Controllers\StatementController;
-use Illuminate\Support\Facades\Route;
 use EscolaLms\Lrs\Http\Controllers\LrsController;
+use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'api'], function () {
     Route::group(['prefix' => '/cmi5'], function () {
