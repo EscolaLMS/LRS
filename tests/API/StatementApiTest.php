@@ -98,15 +98,15 @@ class StatementApiTest extends TestCase
         $response = $this->actingAs($this->admin, 'api')
             ->json('GET', 'api/admin/cmi5/statements');
         $this->assertStatementResponse($response, 15);
-
-        $response = $this->actingAs($this->admin, 'api')
-            ->json('GET', 'api/admin/cmi5/statements?verb=initialized');
-        $this->assertStatementResponse($response, 10);
-
         \DB::enableQueryLog();
         $response = $this->actingAs($this->admin, 'api')
-            ->json('GET', 'api/admin/cmi5/statements?verb=http://adlnet.gov/expapi/verbs/initialized');
+            ->json('GET', 'api/admin/cmi5/statements?verb=initialized');
         dd(\DB::getQueryLog());
+        $this->assertStatementResponse($response, 10);
+
+
+        $response = $this->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/cmi5/statements?verb=http://adlnet.gov/expapi/verbs/initialized');
         $this->assertStatementResponse($response, 10);
     }
 
