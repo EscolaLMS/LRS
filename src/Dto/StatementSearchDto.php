@@ -29,6 +29,7 @@ class StatementSearchDto extends CriteriaDto implements DtoContract, Instantiate
         );
 
         if ($request->get('verb')) {
+            dd(DB::connection()->getPdo()->getAttribute(\PDO::ATTR_DRIVER_NAME));
             if (DB::connection()->getPdo()->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'pgsql') {
                 $criteria->push(new JsonCriteria(
                     'data->verb->display->en-US',
