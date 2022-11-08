@@ -37,7 +37,6 @@ class StatementSearchDto extends CriteriaDto implements DtoContract, Instantiate
                 $criteria->push(new JsonCriteria('data->verb->id', $request->get('verb'), null, false));
             } else {
                 $criteria->push(new LikeCriterion('data', $request->get('verb')));
-                $criteria->push(new LikeCriterion('data', $request->get('verb')));
             }
         }
         if ($request->get('account')) {
@@ -49,8 +48,7 @@ class StatementSearchDto extends CriteriaDto implements DtoContract, Instantiate
                     new JsonCriteria('data->actor->account->homePage', $request->get('account'), null, false)
                 );
             } else {
-                $criteria->push(new LikeCriterion('data', '"name":"'.$request->get('account').'"'));
-                $criteria->push(new LikeCriterion('data', '"homePage":"'.$request->get('account').'"'));
+                $criteria->push(new LikeCriterion('data', $request->get('account')));
             }
         }
         if ($request->get('registration')) {
