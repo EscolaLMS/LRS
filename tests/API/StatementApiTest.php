@@ -92,19 +92,16 @@ class StatementApiTest extends TestCase
                 'en-US' => "initialized"
             ]
         ];
-        Statement::factory()->count(10)->create(['data' => $this->getData(null, null, null, $verb)]);
+        $statements = Statement::factory()->count(10)->create(['data' => $this->getData(null, null, null, $verb)]);
         Statement::factory()->count(5)->create();
 
         $response = $this->actingAs($this->admin, 'api')
             ->json('GET', 'api/admin/cmi5/statements');
         $this->assertStatementResponse($response, 15);
-        \DB::enableQueryLog();
         $response = $this->actingAs($this->admin, 'api')
             ->json('GET', 'api/admin/cmi5/statements?verb=initialized');
-        dd(\DB::getQueryLog());
+        dd($statements, json_decode($response->getContent()));
         $this->assertStatementResponse($response, 10);
-
-
         $response = $this->actingAs($this->admin, 'api')
             ->json('GET', 'api/admin/cmi5/statements?verb=http://adlnet.gov/expapi/verbs/initialized');
         $this->assertStatementResponse($response, 10);
