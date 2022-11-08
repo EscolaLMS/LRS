@@ -103,8 +103,10 @@ class StatementApiTest extends TestCase
             ->json('GET', 'api/admin/cmi5/statements?verb=initialized');
         $this->assertStatementResponse($response, 10);
 
+        \DB::enableQueryLog();
         $response = $this->actingAs($this->admin, 'api')
             ->json('GET', 'api/admin/cmi5/statements?verb=http://adlnet.gov/expapi/verbs/initialized');
+        dd(\DB::getQueryLog());
         $this->assertStatementResponse($response, 10);
     }
 
