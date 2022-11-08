@@ -92,7 +92,8 @@ class StatementApiTest extends TestCase
                 'en-US' => "initialized"
             ]
         ];
-        Statement::factory()->count(10)->create(['data' => $this->getData(null, null, null, $verb)]);
+        $statements = Statement::factory()->count(10)->create(['data' => $this->getData(null, null, null, $verb)]);
+        dd($statements);
         Statement::factory()->count(5)->create();
 
         $response = $this->actingAs($this->admin, 'api')
@@ -101,7 +102,6 @@ class StatementApiTest extends TestCase
 
         $response = $this->actingAs($this->admin, 'api')
             ->json('GET', 'api/admin/cmi5/statements?verb=initialized');
-        dd($response->getContent());
         $this->assertStatementResponse($response, 10);
 
         $response = $this->actingAs($this->admin, 'api')
