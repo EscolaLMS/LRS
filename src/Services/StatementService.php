@@ -18,6 +18,9 @@ class StatementService implements StatementServiceContract
 
     public function searchAndPaginate(StatementSearchDto $criteria, int $per_page): LengthAwarePaginator
     {
+        \DB::enableQueryLog();
+        $this->statementRepository->searchAndPaginateByCriteria($criteria->toArray(), $per_page);
+        dd(\DB::getQueryLog());
         return $this->statementRepository->searchAndPaginateByCriteria($criteria->toArray(), $per_page);
     }
 }
