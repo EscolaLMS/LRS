@@ -36,8 +36,8 @@ class StatementSearchDto extends CriteriaDto implements DtoContract, Instantiate
                 ));
                 $criteria->push(new JsonCriteria('data->verb->id', $request->get('verb'), null, false));
             } else {
-                $criteria->push(new LikeCriterion('data', '\"en-US\":\"'.$request->get('verb').'\"'));
-                $criteria->push(new LikeCriterion('data', '\"id\":\"'.$request->get('verb').'\"'));
+                $criteria->push(new LikeCriterion('data', $request->get('verb')));
+                $criteria->push(new LikeCriterion('data', $request->get('verb')));
             }
         }
         if ($request->get('account')) {
