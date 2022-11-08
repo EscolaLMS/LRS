@@ -28,10 +28,10 @@ class StatementSearchDto extends CriteriaDto implements DtoContract, Instantiate
 
         if ($request->get('verb')) {
             $criteria->push(
-                new JsonCriteria('data->verb->display->en-US', $request->get('verb'))
+                new JsonCriteria('JSON_VALUE(data, $.verb.display.en-US)', $request->get('verb'))
             );
             $criteria->push(
-                new JsonCriteria('data->verb->id', $request->get('verb'), null, false)
+                new JsonCriteria('JSON_VALUE(data, $.verb.id)', $request->get('verb'), null, false)
             );
         }
         if ($request->get('account')) {

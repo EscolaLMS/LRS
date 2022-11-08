@@ -18,7 +18,7 @@ class JsonCriteria extends Criterion
     public function apply(Builder $query): Builder
     {
         return $this->and
-            ? $query->whereJsonContains($this->key, $this->value)
+            ? $query->where($this->key, $this->value)
             : $query->orWhereJsonContains($this->key, $this->value);
     }
 }

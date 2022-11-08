@@ -92,8 +92,7 @@ class StatementApiTest extends TestCase
                 'en-US' => "initialized"
             ]
         ];
-        $statements = Statement::factory()->count(10)->create(['data' => $this->getData(null, null, null, $verb)]);
-        dd($statements);
+        Statement::factory()->count(10)->create(['data' => $this->getData(null, null, null, $verb)]);
         Statement::factory()->count(5)->create();
 
         $response = $this->actingAs($this->admin, 'api')
