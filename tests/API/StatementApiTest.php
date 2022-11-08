@@ -101,6 +101,7 @@ class StatementApiTest extends TestCase
 
         $response = $this->actingAs($this->admin, 'api')
             ->json('GET', 'api/admin/cmi5/statements?verb=initialized');
+        dd($response->getContent());
         $this->assertStatementResponse($response, 10);
 
         $response = $this->actingAs($this->admin, 'api')
