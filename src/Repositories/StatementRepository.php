@@ -22,6 +22,8 @@ class StatementRepository extends BaseRepository implements StatementRepositoryC
     public function searchAndPaginateByCriteria(array $criteria, ?int $perPage = 15): LengthAwarePaginator
     {
         $query = $this->model->newQuery();
+        $query->whereLike('data', 'initialized');
+        dd();
         $query = $this->applyCriteria($query, $criteria);
 
         return $query
