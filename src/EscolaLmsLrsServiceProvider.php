@@ -53,6 +53,7 @@ class EscolaLmsLrsServiceProvider extends ServiceProvider
         );
 
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'lrs');
     }
 
     /**
