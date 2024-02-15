@@ -28,8 +28,10 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-        Passport::routes();
-        Passport::loadKeysFrom(__DIR__ . '/../../storage');
+        if (!$this->app->routesAreCached() && method_exists(Passport::class, 'routes')) {
+            Passport::routes();
+            Passport::loadKeysFrom(__DIR__ . '/../../storage');
+        }
 
         Auth::extend('access_token', function () {
             $request = app('request');
